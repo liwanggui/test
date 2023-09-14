@@ -1,0 +1,35 @@
+
+name: test
+
+run-name: ${{ github.actor }} Deploy WebSite to GitHub Pages 🚀
+
+on:
+  push: 
+    branches:
+    - test
+  workflow_dispatch:
+  
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout 
+        uses: actions/checkout@master
+        with:
+          ref: 'test'
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.10' 
+      - name: build site
+        run: |
+          ls -l
+          pip install mkdocs
+          mkdocs build
+      - name: Setup Ossutil
+        uses: manyuanrong/setup-ossutil@v3.0
+        with:
+          endpoint: oss-cn-hangzhou.aliyuncs.com
+          access-key-id: ${{ secrets.ALIYUN_AK }}
+          access-key-secret: ${{ secrets.ALIYUN_SK }}
+      - name: upload to oss
+        run: ossutil sync -f site/ oss://howtocook/test
