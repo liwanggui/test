@@ -13,10 +13,24 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        
+      - name: Get alist version
+        id: alist_version
+        run: curl -s  https://api.github.com/repos/alist-org/alist/releases/latest | grep tag_name | cut -f4 -d '"'
+      
       - name: Get current date 
         id: alist_version
         run: echo "::set-output name=version::$(curl -s  https://api.github.com/repos/alist-org/alist/releases/latest | grep tag_name | cut -f4 -d '\"')" 
 
       - name: echo version
-        run: echo ${{ steps.alist_version.outputs.version }}
+        run: echo "version: -- ${{ steps.alist_version.outputs.version }}"
+
+      - name: Generate output
+        id: generate_output
+        run: echo "::set-output name=variable_value::Hello, World!"
+  
+      - name: Use registered variable
+        run: echo "The value of the variable is: ${{ steps.generate_output.outputs.variable_value }}"
 
