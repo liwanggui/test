@@ -20,13 +20,12 @@ jobs:
         id: alist_version
         run: |
           echo "alist_version=$(curl -s  https://api.github.com/repos/alist-org/alist/releases/latest | grep tag_name | cut -f4 -d '"')" >> "$GITHUB_ENV"
-      
-      # - name: Get current date 
-      #   id: alist_version
-      #   run: echo "::set-output name=version::$(curl -s  https://api.github.com/repos/alist-org/alist/releases/latest | grep tag_name | cut -f4 -d '\"')" 
-      #   run: echo "::set-output name={name}::{value}"
         
       - name: echo version
         run: echo "version ${alist_version}"
 
-
+  test2:
+    runs-on: ubuntu-latest
+    steps:
+      - name: echo version test
+        run: echo "version ${alist_version}"
