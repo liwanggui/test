@@ -13,23 +13,10 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: checkout 
-        uses: actions/checkout@master
-        with:
-          ref: 'test'
-      - uses: actions/setup-python@v4
-        with:
-          python-version: '3.10' 
-      - name: build site
-        run: |
-          ls -l
-          pip install mkdocs
-          mkdocs build
-      - name: Setup Ossutil
-        uses: manyuanrong/setup-ossutil@v3.0
-        with:
-          endpoint: oss-cn-hangzhou.aliyuncs.com
-          access-key-id: ${{ secrets.ALIYUN_AK }}
-          access-key-secret: ${{ secrets.ALIYUN_SK }}
-      - name: upload to oss
-        run: ossutil sync -f site/ oss://howtocook/test
+      - name: Get current date 
+        id: alist_version
+        run: echo "::set-output name=version::$(curl -s  https://api.github.com/repos/alist-org/alist/releases/latest | grep tag_name | cut -f4 -d '\"')" 
+
+      - name: echo version
+        run: echo ${{ steps.alist_version.outputs.version }}
+
