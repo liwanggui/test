@@ -12,8 +12,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    env:
-      alist_version: xxxxx123
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -28,6 +26,8 @@ jobs:
 
   test2:
     runs-on: ubuntu-latest
+    env:
+      alist_version: xxxxx123
     steps:
       - name: echo version test
         run: echo "version ${alist_version}"
