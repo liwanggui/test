@@ -22,7 +22,10 @@ jobs:
           echo "alist_version=$(curl -s  https://api.github.com/repos/alist-org/alist/releases/latest | grep tag_name | cut -f4 -d '"')" >> "$GITHUB_ENV"
         
       - name: echo version
-        run: echo "version ${alist_version}"
+        run: |
+          echo "version ${alist_version}"
+          arch 
+        
 
   test2:
     runs-on: ubuntu-latest
